@@ -1,6 +1,25 @@
-# Eduprime.hub Project
+# EduPrime.core Project
 
-Este é o README para o projeto eduprime.hub, que utiliza a extensão vscode-restclient para Visual Studio Code.
+Para iniciar o projeto, crie um arquivo `.env` com essa estrutura:
+
+```env
+POSTGRES_DB=apiprimedb
+POSTGRES_USER=eduprimedb
+POSTGRES_PASSWORD=edu@2025@password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_SCHEMA=public
+
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=${POSTGRES_SCHEMA}"
+```
+
+E depois execute o comando:
+
+```bash
+pnpm run docker:start
+```
+
+Este é o README para o projeto EduPrime.core, que utiliza a extensão vscode-restclient para Visual Studio Code.
 
 ## Sobre a extensão vscode-restclient
 
@@ -8,7 +27,7 @@ A extensão [vscode-restclient](https://github.com/Huachao/vscode-restclient) é
 
 ## Tecnologias utilizadas
 
-O projeto eduprime.hub utiliza as seguintes tecnologias:
+O projeto EduPrime.core utiliza as seguintes tecnologias:
 
 - [NestJS](https://nestjs.com/): um framework para construir aplicações server-side com Node.js. Ele fornece uma arquitetura modular e escalável, facilitando o desenvolvimento de APIs robustas.
 
@@ -22,7 +41,7 @@ Utilizamos o gerador de CRUD do [nestjs-prisma-crud](https://kepelrs.github.io/n
 
 ## Como executar o projeto
 
-Siga os passos abaixo para executar o projeto eduprime.hub:
+Siga os passos abaixo para executar o projeto EduPrime.core:
 
 1. Clone este repositório para o seu ambiente local.
 
@@ -38,28 +57,34 @@ Siga os passos abaixo para executar o projeto eduprime.hub:
    DATABASE_URL="postgresql://user:password@localhost:5432/eduprime"
    ```
 
-4. Gere o cliente Prisma e aplique as migrações ao banco de dados executando os seguintes comandos:
+4. Inicie os serviços do Docker executando o comando:
+
+   ```bash
+   pnpm run docker:start
+   ```
+
+5. Gere o cliente Prisma e aplique as migrações ao banco de dados executando os seguintes comandos:
 
    ```bash
    pnpm prisma generate
    pnpm prisma migrate dev
    ```
 
-5. Popule o banco de dados com dados iniciais executando o comando:
+6. Popule o banco de dados com dados iniciais executando o comando:
 
    ```bash
    pnpm run seed
    ```
 
-6. Inicie o servidor executando o comando:
+7. Inicie o servidor executando o comando:
 
    ```bash
    pnpm run start
    ```
 
-7. Abra o VSCode e instale a extensão vscode-restclient.
+8. Abra o VSCode e instale a extensão vscode-restclient.
 
-8. Abra o arquivo `requests.http` na pasta `src` para visualizar e executar as requisições de exemplo.
+9. Abra o arquivo `requests.http` na pasta `src` para visualizar e executar as requisições de exemplo.
 
 ## Como popular o banco de dados
 
