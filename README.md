@@ -1,34 +1,78 @@
-# Projeto eduprime.hub
+# Eduprime.hub Project
 
-Este é o README do projeto eduprime.hub, que utiliza a extensão vscode-restclient para o Visual Studio Code.
+Este é o README para o projeto eduprime.hub, que utiliza a extensão vscode-restclient para Visual Studio Code.
 
 ## Sobre a extensão vscode-restclient
 
-A extensão [vscode-restclient](https://github.com/Huachao/vscode-restclient) é uma ferramenta poderosa para testar e depurar APIs diretamente no VSCode. Ela permite enviar solicitações HTTP personalizadas e visualizar as respostas de forma fácil e intuitiva. Com recursos como autenticação, cabeçalhos personalizados e suporte a várias solicitações, essa extensão é essencial para desenvolvedores que trabalham com APIs.
+A extensão [vscode-restclient](https://github.com/Huachao/vscode-restclient) é uma ferramenta poderosa para testar e depurar APIs diretamente no VSCode. Ela permite enviar requisições HTTP personalizadas e visualizar as respostas de forma fácil e intuitiva. Com recursos como autenticação, cabeçalhos personalizados e suporte para múltiplas requisições, essa extensão é essencial para desenvolvedores que trabalham com APIs.
 
 ## Tecnologias utilizadas
 
 O projeto eduprime.hub utiliza as seguintes tecnologias:
 
-- [NestJS](https://nestjs.com/): um framework para construir aplicativos server-side com Node.js. Ele fornece uma arquitetura modular e escalável, facilitando o desenvolvimento de APIs robustas.
+- [NestJS](https://nestjs.com/): um framework para construir aplicações server-side com Node.js. Ele fornece uma arquitetura modular e escalável, facilitando o desenvolvimento de APIs robustas.
 
-- [Prisma](https://www.prisma.io/): um ORM (Object-Relational Mapping) moderno e poderoso para Node.js. Ele simplifica a interação com o banco de dados, permitindo que os desenvolvedores escrevam consultas em TypeScript.
+- [Prisma](https://www.prisma.io/): um ORM (Object-Relational Mapping) moderno e poderoso para Node.js. Ele simplifica a interação com o banco de dados, permitindo que os desenvolvedores escrevam queries em TypeScript.
 
-- [Fastify](https://www.fastify.io/): um framework web rápido e eficiente para Node.js. Ele é conhecido por sua velocidade e baixo consumo de recursos, tornando-o uma ótima escolha para construir APIs de alto desempenho.
+- [Fastify](https://www.fastify.io/): um framework web rápido e eficiente para Node.js. Ele é conhecido por sua velocidade e baixo consumo de recursos, tornando-se uma ótima escolha para construir APIs de alto desempenho.
 
 ## Como executar o projeto
 
-Siga as etapas abaixo para executar o projeto eduprime.hub:
+Siga os passos abaixo para executar o projeto eduprime.hub:
 
 1. Clone este repositório para o seu ambiente local.
 
-2. Instale as dependências do projeto executando o comando `pnpm install`.
+2. Instale as dependências do projeto executando o comando:
 
-3. Inicie o servidor executando o comando `pnpm run start`.
+   ```bash
+   pnpm install
+   ```
 
-4. Abra o VSCode e instale a extensão vscode-restclient.
+3. Configure suas variáveis de ambiente no arquivo `.env` com a URL de conexão ao seu banco de dados PostgreSQL. Um exemplo de configuração de URL de conexão pode ser:
 
-5. Abra o arquivo `requests.http` na pasta `src` para visualizar e executar as solicitações de exemplo.
+   ```
+   DATABASE_URL="postgresql://user:password@localhost:5432/eduprime"
+   ```
+
+4. Gere o cliente Prisma e aplique as migrações ao banco de dados executando os seguintes comandos:
+
+   ```bash
+   pnpm prisma generate
+   pnpm prisma migrate dev
+   ```
+
+5. Popule o banco de dados com dados iniciais executando o comando:
+
+   ```bash
+   pnpm run seed
+   ```
+
+6. Inicie o servidor executando o comando:
+
+   ```bash
+   pnpm run start
+   ```
+
+7. Abra o VSCode e instale a extensão vscode-restclient.
+
+8. Abra o arquivo `requests.http` na pasta `src` para visualizar e executar as requisições de exemplo.
+
+## Como popular o banco de dados
+
+Para popular o banco de dados com dados iniciais, siga os passos abaixo:
+
+1. **Resetar o banco de dados** (este comando apagará todos os dados existentes e aplicará as migrações):
+
+   ```bash
+   pnpm prisma migrate reset
+   ```
+
+2. **Rodar o script de seed** para adicionar dados iniciais ao banco de dados:
+   ```bash
+   pnpm run seed
+   ```
+
+O comando `pnpm prisma migrate reset` limpará o banco de dados, aplicará novamente todas as migrações e executará o script de seed configurado, populando o banco de dados com os dados iniciais.
 
 ## Contribuição
 
@@ -36,4 +80,4 @@ Contribuições são bem-vindas! Se você encontrar algum problema ou tiver algu
 
 ## Licença
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+Este projeto é licenciado sob a [Licença MIT](LICENSE).
