@@ -33,7 +33,8 @@
     "nestjs-prisma-crud": "1.0.0-beta.18",
     "prisma": "^5.14.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "pg": "^8.11.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.2",
