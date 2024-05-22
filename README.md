@@ -16,6 +16,10 @@ O projeto eduprime.hub utiliza as seguintes tecnologias:
 
 - [Fastify](https://www.fastify.io/): um framework web rápido e eficiente para Node.js. Ele é conhecido por sua velocidade e baixo consumo de recursos, tornando-se uma ótima escolha para construir APIs de alto desempenho.
 
+## Gerador de CRUD
+
+Utilizamos o gerador de CRUD do [nestjs-prisma-crud](https://kepelrs.github.io/nestjs-prisma-crud/quickstart) para agilizar o desenvolvimento de operações básicas no banco de dados. Este gerador permite criar rapidamente endpoints para operações CRUD (Create, Read, Update, Delete) com base nos modelos do Prisma.
+
 ## Como executar o projeto
 
 Siga os passos abaixo para executar o projeto eduprime.hub:
@@ -68,6 +72,7 @@ Para popular o banco de dados com dados iniciais, siga os passos abaixo:
    ```
 
 2. **Rodar o script de seed** para adicionar dados iniciais ao banco de dados:
+
    ```bash
    pnpm run seed
    ```

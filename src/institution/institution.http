@@ -1,0 +1,6 @@
+GET http://localhost:3000/institution HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:3000/institution/71b54205-e5a7-4a8f-a297-c334ce55ebd6 HTTP/1.1
+content-type: application/json

@@ -1,0 +1,6 @@
+GET http://localhost:3000/attendance HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:3000/attendance/19054ba0-1bf7-4bc4-a411-077806b0d63e HTTP/1.1
+content-type: application/json
