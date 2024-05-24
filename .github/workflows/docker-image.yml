@@ -1,0 +1,55 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get latest version from Docker Hub excluding 'latest'
+        id: docker_version
+        run: |
+          # Obter todas as tags do repositório
+          TAGS_JSON=$(curl -s 'https://hub.docker.com/v2/repositories/softagon/eduprimecore/tags/')
+
+          # Filtrar e encontrar a última versão, ignorando a tag 'latest'
+          LATEST_VERSION=$(echo $TAGS_JSON | jq -r '.results[].name | select(. != "latest")' | sort -V | tail -n1)
+          NEW_VERSION=$(echo $LATEST_VERSION | awk -F. '{print $1 "." $2 "." $3+1}')
+
+          echo "Latest version is $LATEST_VERSION"
+          echo "New version is $NEW_VERSION"
+          echo ::set-output name=version::$NEW_VERSION
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            softagon/eduprimecore:latest
+            softagon/eduprimecore:${{ steps.docker_version.outputs.version }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.docker_version.outputs.version }}
+          release_name: Release ${{ steps.docker_version.outputs.version }}
+          body: |
+            ## Changes
+            - Docker image version ${{ steps.docker_version.outputs.version }} released.
+          draft: false
+          prerelease: false
