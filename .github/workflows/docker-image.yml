@@ -60,6 +60,10 @@ jobs:
             softagon/eduprimecore:latest
             softagon/eduprimecore:${{ env.version }}
 
+      - name: Get commit message
+        id: get_commit_message
+        run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         if: ${{ success() }}
         uses: actions/create-release@v1
@@ -71,5 +75,6 @@ jobs:
           body: |
             ## Changes
             - Docker image version ${{ env.version }} released.
+            - Commit message: ${{ env.COMMIT_MESSAGE }}
           draft: false
           prerelease: false
