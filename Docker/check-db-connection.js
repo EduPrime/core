@@ -9,12 +9,27 @@ const client = new Client({
   port: process.env.POSTGRES_PORT,
 })
 
-client
-  .connect()
-  .then(async () => {
-    console.log('Database connection successful')
+const waitForDatabase = async (retries) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await client.connect()
+      console.log('Database connection successful')
+      return
+    } catch (err) {
+      console.log(
+        `Database connection failed, retrying... (${i + 1}/${retries})`,
+      )
+      await new Promise((res) => setTimeout(res, 5000))
+    }
+  }
+  throw new Error('Failed to connect to the database after multiple retries')
+}
 
-    const res = await client.query(`
+waitForDatabase(10)
+  .then(async () => {
+    console.log('Checking if the Institution table exists...')
+    // Verifica se a tabela Institution existe
+    const resTable = await client.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
         WHERE  table_schema = '${process.env.POSTGRES_SCHEMA}'
@@ -22,11 +37,30 @@ client
       );
     `)
 
-    if (!res.rows[0].exists) {
+    if (!resTable.rows[0].exists) {
       console.log('Tables not found, initializing Prisma...')
       execSync('node prisma-init.js', { stdio: 'inherit' })
     } else {
       console.log('Tables already exist.')
+
+      // Verifica se a tabela Institution está vazia
+      console.log('Checking if the Institution table is empty...')
+      const resData = await client.query(
+        `SELECT COUNT(*) FROM "${process.env.POSTGRES_SCHEMA}"."Institution";`,
+      )
+      const count = parseInt(resData.rows[0].count, 10)
+
+      if (count === 0) {
+        console.log('Institution table is empty, running seed...')
+        try {
+          execSync('pnpm run seed', { stdio: 'inherit' })
+          console.log('Seed completed successfully.')
+        } catch (seedErr) {
+          console.error('Error during seeding:', seedErr)
+        }
+      } else {
+        console.log('Institution table is already populated.')
+      }
     }
 
     process.exit(0) // Success

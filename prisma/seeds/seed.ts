@@ -1,17 +1,24 @@
+import { PrismaClient } from '@prisma/client'
 import { seedInstitution } from './seedInstitution'
 import { seedGrade } from './seedGrade'
+
+const prisma = new PrismaClient()
+
 async function main() {
-  await seedInstitution()
-  await seedGrade()
+  try {
+    console.log('Seeding Institution...')
+    await seedInstitution()
+    console.log('Institution seeded successfully.')
+
+    console.log('Seeding Grade...')
+    await seedGrade()
+    console.log('Grade seeded successfully.')
+  } catch (e) {
+    console.error('Error during seeding:', e)
+    process.exit(1)
+  } finally {
+    await prisma.$disconnect()
+  }
 }
 
 main()
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    const { PrismaClient } = await import('@prisma/client')
-    const prisma = new PrismaClient()
-    await prisma.$disconnect()
-  })
