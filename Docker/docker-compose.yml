@@ -3,14 +3,16 @@ version: '3.8'
 services:
   timescaledb:
     image: timescale/timescaledb:latest-pg16
-    container_name: timescaledb
+    container_name: eduprime-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      TZ: America/Recife #Insiste em mostrar America/Fortaleza
+      TZ: America/Recife
+    env_file:
+      - ../.env
     ports:
-      - '${POSTGRES_PORT}:5432'
+      - '5432:5432'
     volumes:
       - timescaledb_data:/var/lib/postgresql/data
       - ./custom-postgresql.conf:/etc/postgresql/postgresql.conf
