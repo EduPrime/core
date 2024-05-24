@@ -31,6 +31,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install Prisma CLI
+        run: pnpm add -D prisma
+
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
+
       - name: Build the project
         run: pnpm run build
 
