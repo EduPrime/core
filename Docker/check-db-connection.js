@@ -28,7 +28,6 @@ const waitForDatabase = async (retries) => {
 waitForDatabase(10)
   .then(async () => {
     console.log('Checking if the Institution table exists...')
-    // Verifica se a tabela Institution existe
     const resTable = await client.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -43,7 +42,6 @@ waitForDatabase(10)
     } else {
       console.log('Tables already exist.')
 
-      // Verifica se a tabela Institution está vazia
       console.log('Checking if the Institution table is empty...')
       const resData = await client.query(
         `SELECT COUNT(*) FROM "${process.env.POSTGRES_SCHEMA}"."Institution";`,
