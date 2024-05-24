@@ -25,14 +25,11 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Install pnpm and NestJS CLI
-        run: npm install -g pnpm @nestjs/cli
+      - name: Install pnpm, NestJS CLI, and Prisma CLI
+        run: npm install -g pnpm @nestjs/cli prisma
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Install Prisma CLI
-        run: pnpm add -D prisma
 
       - name: Generate Prisma Client
         run: pnpm prisma generate
