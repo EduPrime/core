@@ -6,11 +6,19 @@ on:
   pull_request:
     branches: ['main']
 
+permissions:
+  contents: write # Permissão necessária para criar uma release
+  packages: write
+  issues: write
+  pull-requests: write
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -29,13 +37,9 @@ jobs:
       - name: Get latest version from Docker Hub excluding 'latest'
         id: docker_version
         run: |
-          # Obter todas as tags do repositório
           TAGS_JSON=$(curl -s 'https://hub.docker.com/v2/repositories/softagon/eduprimecore/tags/')
-
-          # Filtrar e encontrar a última versão, ignorando a tag 'latest'
           LATEST_VERSION=$(echo $TAGS_JSON | jq -r '.results[].name | select(. != "latest")' | sort -V | tail -n1)
           NEW_VERSION=$(echo $LATEST_VERSION | awk -F. '{print $1 "." $2 "." $3+1}')
-
           echo "Latest version is $LATEST_VERSION"
           echo "New version is $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
@@ -57,6 +61,7 @@ jobs:
             softagon/eduprimecore:${{ env.version }}
 
       - name: Create GitHub Release
+        if: ${{ success() }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
