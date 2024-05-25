@@ -17,9 +17,6 @@ COPY package.json pnpm-lock.yaml ./
 # Instale as dependências do projeto usando pnpm
 RUN pnpm install
 
-# Instale as dependências de produção
-RUN pnpm install --prod
-
 # Copie o restante do código da aplicação
 COPY . .
 
@@ -43,9 +40,6 @@ ENV DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_
 COPY Docker/check-db-connection.js ./check-db-connection.js
 COPY Docker/prisma-init.js ./prisma-init.js
 COPY Docker/start-server.sh ./start-server.sh
-
-# Gere o cliente Prisma com os binários corretos
-RUN npx prisma generate
 
 # Defina o comando padrão para iniciar a aplicação
 CMD ["./start-server.sh"]

@@ -18,9 +18,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - eduprime-network
 
   eduprime_core:
-    image: softagon/eduprimecore:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: eduprime-core
     env_file:
       - .env
@@ -29,6 +33,12 @@ services:
         condition: service_healthy
     ports:
       - '3000:3000'
+    networks:
+      - eduprime-network
+
+networks:
+  eduprime-network:
+    driver: bridge
 
 volumes:
   eduprimedb_data:

@@ -6,9 +6,6 @@ echo "Aguardando a inicialização do banco de dados..."
 # Verifica se o banco de dados está acessível antes de prosseguir
 node check-db-connection.js
 
-# Gera o cliente Prisma
-npx prisma generate
-
 # Aplica as migrações do Prisma
 node prisma-init.js
 
