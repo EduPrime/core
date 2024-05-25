@@ -1,8 +1,10 @@
 const { execSync } = require('child_process')
 
 try {
-  console.log('Running Prisma migrations...')
+  console.log('Generating Prisma Client...')
   execSync('npx prisma generate', { stdio: 'inherit' })
+
+  console.log('Running Prisma migrations...')
   execSync('npx prisma migrate deploy', { stdio: 'inherit' })
   console.log('Prisma migrations completed successfully.')
 
