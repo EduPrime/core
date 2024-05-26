@@ -23,6 +23,59 @@ export async function seedInstitution() {
       postalCode: '12345-678',
       phone: '(11) 8765-4321',
       institutionId: institution.id,
+      active: true,
+      abbreviation: 'EFA',
+      longitude: '-46.6333',
+      latitude: '-23.5505',
+      totalArea: '5000',
+      builtArea: '3000',
+      availableArea: '2000',
+      acronym: 'EFA',
+      blockDiaryEntriesForClosedAcademicYears: false,
+      operationalStatus: 1,
+      administrativeDependency: 3,
+      regulation: 1,
+      logoUrl: 'https://example.com/logo1.png',
+      access: 1,
+      managerId: '1d3e4567-e89b-12d3-a456-426614174001',
+      managerPosition: 'Principal',
+      operationLocation: 'Urban',
+      condition: 1,
+      sharedSchoolInepCode: 12345678,
+      creationDecree: 'Decreto 1234',
+      numberOfFloors: 2,
+      floorType: 1,
+      energyMeter: 1,
+      waterConsumed: 10000,
+      hasPrincipalOffice: true,
+      hasTeachersRoom: true,
+      hasSecretaryOffice: true,
+      hasComputerLab: true,
+      hasScienceLab: true,
+      hasAEERoom: false,
+      hasCoveredCourt: true,
+      hasUncoveredCourt: false,
+      hasKitchen: true,
+      hasLibrary: true,
+      hasReadingRoom: true,
+      hasPlayground: true,
+      hasNursery: false,
+      hasRestroomOutside: false,
+      hasRestroomInside: true,
+      hasChildRestroom: true,
+      hasAccessibleRestroom: true,
+      hasShower: false,
+      hasCafeteria: true,
+      hasPantry: true,
+      hasAuditorium: false,
+      hasPatio: true,
+      hasGreenArea: true,
+      hasPERoom: true,
+      hasArtsRoom: false,
+      hasStudentDormitory: false,
+      hasTeacherDormitory: false,
+      hasExternalArea: true,
+      hasMultipurposeRoom: true,
     },
   })
 
@@ -35,6 +88,59 @@ export async function seedInstitution() {
       postalCode: '98765-432',
       phone: '(21) 2345-6789',
       institutionId: institution.id,
+      active: true,
+      abbreviation: 'CB',
+      longitude: '-43.2075',
+      latitude: '-22.9028',
+      totalArea: '7000',
+      builtArea: '4500',
+      availableArea: '2500',
+      acronym: 'CB',
+      blockDiaryEntriesForClosedAcademicYears: true,
+      operationalStatus: 1,
+      administrativeDependency: 3,
+      regulation: 1,
+      logoUrl: 'https://example.com/logo2.png',
+      access: 1,
+      managerId: '1d3e4567-e89b-12d3-a456-426614174002',
+      managerPosition: 'Principal',
+      operationLocation: 'Urban',
+      condition: 1,
+      sharedSchoolInepCode: 87654321,
+      creationDecree: 'Decreto 5678',
+      numberOfFloors: 3,
+      floorType: 2,
+      energyMeter: 2,
+      waterConsumed: 15000,
+      hasPrincipalOffice: true,
+      hasTeachersRoom: true,
+      hasSecretaryOffice: true,
+      hasComputerLab: true,
+      hasScienceLab: true,
+      hasAEERoom: true,
+      hasCoveredCourt: true,
+      hasUncoveredCourt: true,
+      hasKitchen: true,
+      hasLibrary: true,
+      hasReadingRoom: true,
+      hasPlayground: true,
+      hasNursery: true,
+      hasRestroomOutside: true,
+      hasRestroomInside: true,
+      hasChildRestroom: true,
+      hasAccessibleRestroom: true,
+      hasShower: true,
+      hasCafeteria: true,
+      hasPantry: true,
+      hasAuditorium: true,
+      hasPatio: true,
+      hasGreenArea: true,
+      hasPERoom: true,
+      hasArtsRoom: true,
+      hasStudentDormitory: true,
+      hasTeacherDormitory: true,
+      hasExternalArea: true,
+      hasMultipurposeRoom: true,
     },
   })
 
@@ -220,6 +326,32 @@ export async function seedInstitution() {
 
   const timetable2 = await prisma.timetable.create({
     data: {
+      name: 'Horário da Turma B',
+      classroomId: classroom2.id,
+      teachers: {
+        connect: [{ id: teacher1.id }, { id: teacher2.id }],
+      },
+      classSessions: {
+        create: [
+          {
+            dayOfWeek: 'WEDNESDAY',
+            startTime: '08:00',
+            endTime: '09:00',
+            disciplineId: math.id,
+          },
+          {
+            dayOfWeek: 'THURSDAY',
+            startTime: '09:00',
+            endTime: '10:00',
+            disciplineId: science.id,
+          },
+        ],
+      },
+    },
+  })
+
+  const timetable3 = await prisma.timetable.create({
+    data: {
       name: 'Horário da Turma C',
       classroomId: classroom3.id,
       teachers: {
@@ -228,13 +360,13 @@ export async function seedInstitution() {
       classSessions: {
         create: [
           {
-            dayOfWeek: 'WEDNESDAY',
+            dayOfWeek: 'MONDAY',
             startTime: '10:00',
             endTime: '11:00',
             disciplineId: history.id,
           },
           {
-            dayOfWeek: 'THURSDAY',
+            dayOfWeek: 'TUESDAY',
             startTime: '11:00',
             endTime: '12:00',
             disciplineId: geography.id,
@@ -265,5 +397,15 @@ export async function seedInstitution() {
     geography,
     timetable1,
     timetable2,
+    timetable3,
   })
 }
+
+seedInstitution()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })

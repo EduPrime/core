@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  timescaledb:
+  eduprime_db:
     image: timescale/timescaledb:latest-pg16
-    container_name: eduprime-db
+    container_name: eduprime_db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -14,7 +14,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - timescaledb_data:/var/lib/postgresql/data
+      - eduprime_db_data:/var/lib/postgresql/data
       - ./custom-postgresql.conf:/etc/postgresql/postgresql.conf
     entrypoint: >
       sh -c "apk add --no-cache tzdata &&
@@ -23,4 +23,4 @@ services:
              echo 'shared_preload_libraries=timescaledb' >> /etc/postgresql/postgresql.conf &&
              exec docker-entrypoint.sh postgres"
 volumes:
-  timescaledb_data:
+  eduprime_db_data:

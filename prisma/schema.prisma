@@ -20,18 +20,73 @@ model Institution {
 }
 
 model School {
-  id            String            @id @default(uuid()) @db.Uuid
-  name          String
-  address       String?
-  city          String?
-  state         String?
-  postalCode    String?
-  phone         String?
-  institutionId String            @db.Uuid
-  institution   Institution       @relation(fields: [institutionId], references: [id], onDelete: Restrict)
-  courses       Course[]
-  timetables    TimetableSchool[]
-  teachers      Teacher[]
+  id                                      String            @id @default(uuid()) @db.Uuid
+  name                                    String
+  address                                 String?
+  city                                    String?
+  state                                   String?
+  postalCode                              String?
+  phone                                   String?
+  institutionId                           String            @db.Uuid
+  institution                             Institution       @relation(fields: [institutionId], references: [id], onDelete: Restrict)
+  courses                                 Course[]
+  timetables                              TimetableSchool[]
+  teachers                                Teacher[]
+  createdAt                               DateTime          @default(now())
+  deletedAt                               DateTime?
+  active                                  Boolean           @default(true)
+  abbreviation                            String?
+  longitude                               String?
+  latitude                                String?
+  totalArea                               String?
+  builtArea                               String?
+  availableArea                           String?
+  acronym                                 String?
+  blockDiaryEntriesForClosedAcademicYears Boolean?
+  operationalStatus                       Int?
+  administrativeDependency                Int?
+  regulation                              Int?
+  logoUrl                                 String?
+  access                                  Int?
+  managerId                               String?           @db.Uuid
+  managerPosition                         String?
+  operationLocation                       String?
+  condition                               Int?
+  sharedSchoolInepCode                    Int?
+  creationDecree                          String?
+  numberOfFloors                          Int?
+  floorType                               Int?
+  energyMeter                             Int?
+  waterConsumed                           Int?
+  hasPrincipalOffice                      Boolean?
+  hasTeachersRoom                         Boolean?
+  hasSecretaryOffice                      Boolean?
+  hasComputerLab                          Boolean?
+  hasScienceLab                           Boolean?
+  hasAEERoom                              Boolean?
+  hasCoveredCourt                         Boolean?
+  hasUncoveredCourt                       Boolean?
+  hasKitchen                              Boolean?
+  hasLibrary                              Boolean?
+  hasReadingRoom                          Boolean?
+  hasPlayground                           Boolean?
+  hasNursery                              Boolean?
+  hasRestroomOutside                      Boolean?
+  hasRestroomInside                       Boolean?
+  hasChildRestroom                        Boolean?
+  hasAccessibleRestroom                   Boolean?
+  hasShower                               Boolean?
+  hasCafeteria                            Boolean?
+  hasPantry                               Boolean?
+  hasAuditorium                           Boolean?
+  hasPatio                                Boolean?
+  hasGreenArea                            Boolean?
+  hasPERoom                               Boolean?
+  hasArtsRoom                             Boolean?
+  hasStudentDormitory                     Boolean?
+  hasTeacherDormitory                     Boolean?
+  hasExternalArea                         Boolean?
+  hasMultipurposeRoom                     Boolean?
 }
 
 model Course {
